@@ -1,0 +1,14 @@
+version: '3.8'
+
+services:
+  nas-tools:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./dev.db:/app/dev.db
+    environment:
+      - DATABASE_URL=file:/app/dev.db
+    restart: always

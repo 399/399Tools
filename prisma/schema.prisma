@@ -1,0 +1,70 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+  previewFeatures = ["driverAdapters"]
+}
+
+datasource db {
+  provider = "sqlite"
+}
+
+model Tool {
+  id          String   @id @default(cuid())
+  name        String   @unique
+  description String?
+  href        String
+  icon        String?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model Portfolio {
+  id           String   @id @default(cuid())
+  name         String
+  description  String?
+  strategyMode String   // GRID or REGULAR
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+  assets       Asset[]
+}
+
+model Asset {
+  id                String   @id @default(cuid())
+  name              String
+  symbol            String?
+  note              String?
+  
+  // Grid Parameters (Optional, used if Portfolio is GRID mode)
+  pressurePrice     Float?
+  supportPrice      Float?
+  gridStep          Float?
+  gridAmount        Float?
+
+  // Regular Mode Specific
+  currentPrice      Float? // Latest known price, updated via transactions or manual input
+  
+  portfolioId       String
+  portfolio         Portfolio @relation(fields: [portfolioId], references: [id], onDelete: Cascade)
+  
+  transactions      TradeRecord[]
+
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+}
+
+model TradeRecord {
+  id        String   @id @default(cuid())
+  type      String   // "BUY" or "SELL"
+  price     Float
+  quantity  Float
+  amount    Float
+  date      DateTime
+  
+  assetId   String
+  asset     Asset    @relation(fields: [assetId], references: [id], onDelete: Cascade)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
