@@ -1,18 +1,16 @@
 import { PrismaClient } from '@prisma/client'
-import { createClient } from '@libsql/client/web'
-import { PrismaLibSQL } from '@prisma/adapter-libsql'
+import { PrismaLibSql } from '@prisma/adapter-libsql/web'
 
 const prismaClientSingleton = () => {
-    // Force web client which acts as purely HTTP fetch, circumventing all local Webpack `.node` errors
+    // Using configuration object directly for PrismaLibSql (requires url and optionally authToken)
     const url = process.env.TURSO_DATABASE_URL || 'libsql://dummy.turso.io'
-    const authToken = process.env.TURSO_AUTH_TOKEN || 'dummy'
+    const authToken = process.env.TURSO_AUTH_TOKEN || ''
 
-    const libsql = createClient({
+    const adapter = new PrismaLibSql({
         url,
         authToken
     })
 
-    const adapter = new PrismaLibSQL(libsql)
     return new PrismaClient({ adapter })
 }
 

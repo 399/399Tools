@@ -12,7 +12,7 @@
   "dependencies": {
     "@amap/amap-jsapi-loader": "^1.0.1",
     "@larksuiteoapi/node-sdk": "^1.56.1",
-    "@libsql/client": "^0.14.0",
+    "@libsql/client": "^0.17.2",
     "@phosphor-icons/react": "^2.1.10",
     "@prisma/adapter-libsql": "^7.2.0",
     "@prisma/client": "^7.2.0",
