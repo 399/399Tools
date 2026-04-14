@@ -1,13 +1,12 @@
 import { PrismaClient } from '@prisma/client'
-import { createClient } from '@libsql/client'
+import { createClient } from '@libsql/client/web'
 import { PrismaLibSQL } from '@prisma/adapter-libsql'
 
 const prismaClientSingleton = () => {
-    // Get Turso connection strings, fallback to local dev.db if they are not provided (e.g. initial dev)
-    const url = process.env.TURSO_DATABASE_URL || 'file:./dev.db'
-    const authToken = process.env.TURSO_AUTH_TOKEN
+    // Force web client which acts as purely HTTP fetch, circumventing all local Webpack `.node` errors
+    const url = process.env.TURSO_DATABASE_URL || 'libsql://dummy.turso.io'
+    const authToken = process.env.TURSO_AUTH_TOKEN || 'dummy'
 
-    // Initialize libSQL client compatible with both remote Serverless Edge and local file scenarios
     const libsql = createClient({
         url,
         authToken
