@@ -21,6 +21,7 @@ import {
 import { Wallet, Activity, Coins, LineChart } from "lucide-react";
 import { calculateXIRR } from "@/lib/finance";
 
+interface RegularDashboardProps {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     transactions: any[];
 }
