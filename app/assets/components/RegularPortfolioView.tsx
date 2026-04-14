@@ -11,7 +11,7 @@ import {
 } from "@/components/ui/table";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
+
 import {
     Select,
     SelectContent,
@@ -27,7 +27,7 @@ import ImportTransactionsDialog from './ImportTransactionsDialog';
 import RegularDashboard from './RegularDashboard';
 import { ClosedPositionsTable } from './ClosedPositionsTable';
 import { calculateClosedPositions } from './ClosedPositionsLogic';
-import { ArrowUpDown, Trash2, ArrowUp, ArrowDown, Search, CalendarIcon, Check, ChevronsUpDown } from 'lucide-react';
+import { ArrowUpDown, Trash2, ArrowUp, ArrowDown, CalendarIcon, Check, ChevronsUpDown } from 'lucide-react';
 import { cn } from "@/lib/utils";
 import {
     Popover,
@@ -47,6 +47,7 @@ import {
 
 interface RegularPortfolioViewProps {
     portfolioId: string;
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     transactions: any[];
     uniqueAssets: { symbol: string | null; name: string }[];
 }
@@ -307,7 +308,7 @@ export default function RegularPortfolioView({ portfolioId, transactions, unique
                                 </PopoverContent>
                             </Popover>
                         </div>
-                        <Select value={dateFilter} onValueChange={(v: any) => setDateFilter(v)}>
+                        <Select value={dateFilter} onValueChange={(v: DateFilterType) => setDateFilter(v)}>
                             <SelectTrigger className="w-[160px]">
                                 <SelectValue placeholder="成交时间" />
                             </SelectTrigger>

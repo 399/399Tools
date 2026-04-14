@@ -148,7 +148,9 @@ export async function getPortfolioTransactions(portfolioId: string) {
     });
 
     // Flatten to a list of transactions with asset info
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const transactions = assets.flatMap((asset: any) =>
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         asset.transactions.map((tx: any) => ({
             ...tx,
             assetName: asset.name,
@@ -158,6 +160,7 @@ export async function getPortfolioTransactions(portfolioId: string) {
     );
 
     // Sort by date desc
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     return transactions.sort((a: any, b: any) => b.date.getTime() - a.date.getTime());
 }
 
@@ -275,9 +278,9 @@ export async function importTransactions(portfolioId: string, csvData: string) {
 
             successCount++;
 
-        } catch (e: any) {
+        } catch (e: unknown) {
             console.error('Import error for line:', line, e);
-            errors.push(`Row ${i + 1}: Server Error - ${e.message}`);
+            errors.push(`Row ${i + 1}: Server Error - ${e instanceof Error ? e.message : String(e)}`);
             failCount++;
         }
     }

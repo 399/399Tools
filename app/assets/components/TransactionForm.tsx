@@ -19,7 +19,6 @@ import { Plus, Check, ChevronsUpDown, CalendarIcon } from 'lucide-react';
 import { cn } from "@/lib/utils";
 import {
     Command,
-    CommandEmpty,
     CommandGroup,
     CommandInput,
     CommandItem,
@@ -194,7 +193,7 @@ export default function TransactionForm({ portfolioId, uniqueAssets }: Transacti
                                                             className="cursor-pointer bg-zinc-50 dark:bg-zinc-900 mb-1"
                                                         >
                                                             <div className="flex items-center w-full">
-                                                                <span className="flex-1">使用 "<span className="font-bold text-primary">{searchTerm}</span>" 作为名称创建</span>
+                                                                <span className="flex-1">使用 &quot;<span className="font-bold text-primary">{searchTerm}</span>&quot; 作为名称创建</span>
                                                                 <div className="text-xs text-muted-foreground bg-zinc-200 dark:bg-zinc-800 px-1.5 py-0.5 rounded">↵ 回车</div>
                                                             </div>
                                                         </CommandItem>
