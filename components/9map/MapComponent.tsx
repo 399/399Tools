@@ -129,7 +129,7 @@ const MapComponent = forwardRef<MapRef, MapComponentProps>(({ places, onMarkerCl
                 mapInstance.current.destroy();
             }
         };
-    }, []);
+    }, [onUserLocationUpdate]);
 
     // Helper to generate marker content
     const getMarkerContent = useCallback((place: Place, isSelected: boolean, variant: 'full' | 'dot' = 'full') => {
@@ -449,7 +449,7 @@ const MapComponent = forwardRef<MapRef, MapComponentProps>(({ places, onMarkerCl
 
     // Create a stable debounce wrapper that calls the ref
     const debouncedUpdate = useMemo(() => {
-        // eslint-disable-next-line react-hooks/refs
+
         return debounce(() => {
             if (updateVisibleMarkersRef.current) updateVisibleMarkersRef.current();
         }, 100);
@@ -466,17 +466,15 @@ const MapComponent = forwardRef<MapRef, MapComponentProps>(({ places, onMarkerCl
         map.on('moveend', debouncedUpdate);
         map.on('zoomend', debouncedUpdate);
 
+        const currentMarkers = markersRef.current;
         return () => {
             map.off('moveend', debouncedUpdate);
             map.off('zoomend', debouncedUpdate);
 
             // Cleanup all markers when unmounting or places change significantly
-            // So we need to handle "removed places" too.
-
-            // Simple cleanup for safety:
             if (places.length === 0) {
-                markersRef.current.forEach((marker) => marker.setMap(null));
-                markersRef.current.clear();
+                currentMarkers.forEach((marker) => marker.setMap(null));
+                currentMarkers.clear();
             }
         };
     }, [places, isMapReady, selectedPlaceId, onMarkerClick, debouncedUpdate, updateVisibleMarkers]); // Re-run if these change

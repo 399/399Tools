@@ -9,8 +9,6 @@ interface BlockNodeProps {
   node: DittoNodeData;
   onUpdate: (id: string, modifier: (n: DittoNodeData) => DittoNodeData) => void;
   onRemove: (id: string) => void;
-  onSelfSizingUpdate?: (newVal: number, mode: "px"|"ratio") => void; 
-  parentDirection?: "row" | "col";
   isRoot?: boolean;
   actualWidth: number;
   actualHeight: number;
@@ -82,8 +80,6 @@ export default function BlockNodeComponent({
   node, 
   onUpdate, 
   onRemove, 
-  onSelfSizingUpdate,
-  parentDirection,
   isRoot, 
   actualWidth, 
   actualHeight, 

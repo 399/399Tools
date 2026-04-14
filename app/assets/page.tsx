@@ -3,7 +3,7 @@ import PortfolioForm from './components/PortfolioForm';
 import EditPortfolioDialog from './components/EditPortfolioDialog';
 import Link from 'next/link';
 import { Card, CardHeader, CardTitle, CardDescription, CardContent } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
+
 import { Briefcase, ChevronRight, Grid3X3, List } from 'lucide-react';
 
 export default async function AssetsPage() {

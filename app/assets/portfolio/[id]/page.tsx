@@ -13,8 +13,8 @@ import {
     TableRow,
 } from "@/components/ui/table";
 import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
-import { ArrowLeft, Grid3X3, List, Info } from 'lucide-react';
+
+import { ArrowLeft, Grid3X3, List } from 'lucide-react';
 
 export default async function PortfolioDetailPage({
     params,

@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { Card, CardHeader, CardTitle, CardDescription, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Map, Package, Send, Settings, Terminal, Layout } from "lucide-react";
+import { Map, Package, Send, Settings, Layout } from "lucide-react";
 
 const tools = [
   {
