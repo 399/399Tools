@@ -396,7 +396,8 @@ export default function RegularDashboard({ transactions }: RegularDashboardProps
                                     contentStyle={{ borderRadius: '8px', border: 'none', boxShadow: '0 4px 6px -1px rgb(0 0 0 / 0.1)' }}
                                     labelStyle={{ color: '#6b7280', marginBottom: '4px' }}
                                     labelFormatter={(label) => format(new Date(label), 'yyyy-MM-dd')}
-                                    formatter={(val: number | undefined) => [val?.toFixed(2) ?? "0.00", "累计盈亏"]}
+                                    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                                    formatter={(val: any) => [typeof val === 'number' ? val.toFixed(2) : "0.00", "累计盈亏"]}
                                 />
                                 <Area
                                     type="monotone"
