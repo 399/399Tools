@@ -31,6 +31,7 @@ export default function AssetForm({ portfolioId, strategyMode }: AssetFormProps)
         setLoading(true);
 
         const formData = new FormData(event.currentTarget);
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         const data: any = {
             name: formData.get('name') as string,
             symbol: formData.get('symbol') as string,

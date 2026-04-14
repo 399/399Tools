@@ -37,6 +37,7 @@ export default function ImportTransactionsDialog({ portfolioId }: ImportTransact
             const workbook = XLSX.read(data);
             const sheetName = workbook.SheetNames[0];
             const worksheet = workbook.Sheets[sheetName];
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
             const jsonData = XLSX.utils.sheet_to_json(worksheet, { header: 1, raw: false, dateNF: 'yyyy-mm-dd' }) as any[][];
 
             if (jsonData.length === 0) return;

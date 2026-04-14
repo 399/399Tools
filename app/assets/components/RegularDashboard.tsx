@@ -1,7 +1,7 @@
 import { useMemo, useState, useEffect } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { format, subMonths, startOfYear, isAfter, startOfDay, endOfDay, differenceInDays } from "date-fns";
+import { format, subMonths, startOfYear, startOfDay, endOfDay, differenceInDays } from "date-fns";
 import { CalendarIcon } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Calendar } from "@/components/ui/calendar";
@@ -18,22 +18,10 @@ import {
     XAxis,
     YAxis,
 } from "recharts";
-import { ArrowUpRight, ArrowDownRight, Wallet, Activity, Coins, LineChart } from "lucide-react";
-import { calculateXIRR, calculateAnnualizedReturn } from "@/lib/finance";
+import { Wallet, Activity, Coins, LineChart } from "lucide-react";
+import { calculateXIRR } from "@/lib/finance";
 
-interface Transaction {
-    id: string;
-    type: "BUY" | "SELL";
-    price: number;
-    quantity: number; // raw quantity
-    amount: number; // raw amount
-    date: string | Date; // date string or object
-    assetSymbol?: string;
-    assetName?: string;
-    currentPrice?: number; // Added field
-}
-
-interface RegularDashboardProps {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     transactions: any[];
 }
 
@@ -247,7 +235,7 @@ export default function RegularDashboard({ transactions }: RegularDashboardProps
     const chartData = useMemo(() => {
         if (!dateRange.from) return metrics.pnlData;
 
-        let filtered = metrics.pnlData.filter(d =>
+        const filtered = metrics.pnlData.filter(d =>
             // We use start of day comparison for consistency
             d.rawDate >= dateRange.from! &&
             (dateRange.to ? d.rawDate <= dateRange.to : true)
