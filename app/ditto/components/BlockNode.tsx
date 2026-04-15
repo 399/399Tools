@@ -113,7 +113,25 @@ export default function BlockNodeComponent({
                  children: [...n.children!, { id: generateId(), name: getNextName(), ratio: 1 }]
              }));
           } else {
-             alert("该空间已在相反轴向上分割，不可混用轴。");
+             // Cross-axis split: wrap existing children into a new group node,
+             // then split the current node in the new axis direction.
+             onUpdate(node.id, (n) => {
+                const wrappedGroup = {
+                   id: generateId(),
+                   name: getNextName(),
+                   ratio: 1,
+                   direction: n.direction,
+                   children: n.children,
+                };
+                return {
+                   ...n,
+                   direction: axis,
+                   children: [
+                      wrappedGroup,
+                      { id: generateId(), name: getNextName(), ratio: 1 },
+                   ],
+                };
+             });
           }
       } else {
          onUpdate(node.id, (n) => ({
