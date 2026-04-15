@@ -6,6 +6,8 @@ import { Card, CardHeader, CardTitle, CardDescription, CardContent } from "@/com
 
 import { Briefcase, ChevronRight, Grid3X3, List } from 'lucide-react';
 
+export const dynamic = 'force-dynamic';
+
 export default async function AssetsPage() {
     const portfolios = await getPortfolios();
 
