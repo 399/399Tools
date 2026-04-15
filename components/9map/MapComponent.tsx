@@ -4,7 +4,7 @@ import { useEffect, useRef, useState, useImperativeHandle, forwardRef, useCallba
 import AMapLoader from '@amap/amap-jsapi-loader';
 import { renderToStaticMarkup } from 'react-dom/server';
 import { ForkKnife, Hamburger, Coffee, MapPin } from '@phosphor-icons/react';
-import { Place } from '@/types';
+import { Place } from '@/9map/types';
 
 interface MapComponentProps {
     places: Place[];

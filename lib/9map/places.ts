@@ -1,5 +1,5 @@
-import { Place, PlaceCategory } from '@/types';
-import { client, FEISHU_APP_TOKEN, FEISHU_TABLE_ID } from '@/lib/feishu';
+import { Place, PlaceCategory } from '@/9map/types';
+import { client, FEISHU_APP_TOKEN, FEISHU_TABLE_ID } from '@/lib/9map/feishu';
 
 export async function fetchPlaces(options: { type?: 'homepage' | 'full' } = { type: 'full' }) {
     // If Feishu config is missing, return empty

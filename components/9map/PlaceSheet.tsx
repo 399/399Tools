@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Place } from '@/types';
+import { Place } from '@/9map/types';
 import BottomSheet from './BottomSheet';
 import { X, ClockCountdown, MapPinArea, CaretUp, CaretDown, Storefront, CalendarPlus, LetterCircleP, Armchair, FinnTheHuman, HandsClapping, ThumbsDown, Eyes, NavigationArrow, Copy, MapPin } from '@phosphor-icons/react';
 

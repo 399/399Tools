@@ -289,7 +289,6 @@ export default function BlockNodeComponent({
             node={child} 
             onUpdate={onUpdate} 
             onRemove={onRemove}
-            parentDirection={node.direction}
             isRoot={false}
             actualWidth={childActualWidth}
             actualHeight={childActualHeight}

@@ -1,29 +1,4 @@
-// Copy of lib/prisma.ts initialization logic
-import { PrismaClient } from '@prisma/client'
-import { PrismaBetterSqlite3 } from '@prisma/adapter-better-sqlite3'
-import Database from 'better-sqlite3' // Wait, lib/prisma.ts didn't import Database?
-// Ah, lib/prisma.ts uses `new PrismaBetterSqlite3({ url: ... })` which seems to be a wrapper?
-// Or maybe I misread lib/prisma.ts.
-// Let's re-read lib/prisma.ts carefully.
-// It imports `PrismaBetterSqlite3` from `@prisma/adapter-better-sqlite3`.
-// And `new PrismaBetterSqlite3({ url: ... })`.
-import path from 'path';
-
-const prismaClientSingleton = () => {
-    // Assuming run from root
-    const dbPath = path.join(process.cwd(), 'dev.db');
-    // Usually connection string is file: path
-    const connectionString = `file:${dbPath}`;
-    console.log(`Using DB: ${connectionString}`);
-
-    // Note: If you face "better-sqlite3" import issues, ensuring standard instantiation might be safer if not strictly needed.
-    // But schema requires it.
-    const adapter = new PrismaBetterSqlite3({ url: connectionString })
-    return new PrismaClient({ adapter })
-}
-
-const prisma = prismaClientSingleton()
-
+import prisma from '../lib/prisma';
 
 async function main() {
     const name = "可转债轮动";

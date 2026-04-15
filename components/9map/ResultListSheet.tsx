@@ -1,5 +1,5 @@
 import { useState, useMemo, useRef, useEffect } from 'react';
-import { Place } from '@/types';
+import { Place } from '@/9map/types';
 import BottomSheet from './BottomSheet';
 import { getDistance } from 'geolib';
 import { Storefront, ForkKnife, Coffee, Hamburger } from '@phosphor-icons/react';
