@@ -34,6 +34,7 @@ export default async function CityGrid() {
 
     // Convert to card format
     const cities: CityMap[] = Object.entries(cityGroups).map(([city, count]) => {
+        const numCount = count as number;
         let displayTitle = city;
         let englishTitle = 'CITY';
         let imagePath = '/city/上海.jpg'; // Default fallback
@@ -68,10 +69,10 @@ export default async function CityGrid() {
             id: city,
             title: displayTitle,
             englishTitle,
-            description: `${count} 个好去处`,
+            description: `${numCount} 个好去处`,
             image: imagePath,
             link: `/map?city=${encodeURIComponent(city)}`,
-            count,
+            count: numCount,
             skyColor,
         };
     });
