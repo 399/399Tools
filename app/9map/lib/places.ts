@@ -1,5 +1,5 @@
 import { Place, PlaceCategory } from '@/app/9map/types';
-import { client, FEISHU_APP_TOKEN, FEISHU_TABLE_ID } from '@/app/9map/lib/feishu';
+import { getTenantAccessToken, FEISHU_APP_TOKEN, FEISHU_TABLE_ID } from '@/app/9map/lib/feishu';
 
 export async function fetchPlaces(options: { type?: 'homepage' | 'full' } = { type: 'full' }) {
     // If Feishu config is missing, return empty
@@ -27,21 +27,24 @@ export async function fetchPlaces(options: { type?: 'homepage' | 'full' } = { ty
 
     // Filter fields if homepage
     if (options.type === 'homepage') {
-        // Only request fields that actually exist.
-        // 'city' and 'address' columns do not exist.
-        // Must use JSON.stringify for field_names in this SDK/API version.
         params.field_names = JSON.stringify(['location', 'full_address', 'name', 'category']);
     }
 
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    // @ts-ignore - SDK types might mismatch with strict local types, so we cast to unknown then compatible type if needed, but SDK usually accepts object.
-    const res = await client.bitable.appTableRecord.list({
-        path: {
-            app_token: FEISHU_APP_TOKEN,
-            table_id: FEISHU_TABLE_ID,
+    const accessToken = await getTenantAccessToken();
+    const query = new URLSearchParams({ page_size: params.page_size.toString() });
+    if (params.field_names) {
+        query.append('field_names', params.field_names);
+    }
+    
+    const url = `https://open.feishu.cn/open-apis/bitable/v1/apps/${FEISHU_APP_TOKEN}/tables/${FEISHU_TABLE_ID}/records?${query.toString()}`;
+    const response = await fetch(url, {
+        headers: {
+            'Authorization': `Bearer ${accessToken}`,
+            'Content-Type': 'application/json',
         },
-        params: params,
     });
+    
+    const res = await response.json();
 
     if (!res.data?.items) {
         return [];
