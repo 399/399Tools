@@ -5,7 +5,7 @@
 - **框架**: Next.js 15 (App Router)
 - **语言**: TypeScript
 - **样式**: Tailwind CSS
-- **UI 组件**: shadcn/ui
+- **UI 组件**: shadcn/UI
 - **数据库/数据源**: 
   - **Prisma + SQLite**: 仪表盘首页及未来新工具的默认存储。
   - **Feishu Bitable**: `9Map` 相关工具的核心数据源。
