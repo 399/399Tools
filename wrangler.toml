@@ -1,6 +1,7 @@
 name = "399tools"
 compatibility_date = "2024-04-20"
 compatibility_flags = ["nodejs_compat"]
+pages_build_output_dir = ".vercel/output/static"
 
 [[services]]
 binding = "WORKER_SELF_REFERENCE"
