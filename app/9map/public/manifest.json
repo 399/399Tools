@@ -1,0 +1,23 @@
+{
+    "name": "9Map",
+    "short_name": "9Map",
+    "icons": [
+        {
+            "src": "https://img.399.be/img/icon-192.jpg",
+            "sizes": "192x192",
+            "type": "image/jpeg",
+            "purpose": "any maskable"
+        },
+        {
+            "src": "https://img.399.be/img/icon-512.jpg",
+            "sizes": "512x512",
+            "type": "image/jpeg",
+            "purpose": "any maskable"
+        }
+    ],
+    "theme_color": "#000000",
+    "background_color": "#ffffff",
+    "start_url": "/",
+    "display": "standalone",
+    "orientation": "portrait"
+}

@@ -1,0 +1,16 @@
+# Feishu App Credentials
+FEISHU_APP_ID=
+FEISHU_APP_SECRET=
+
+# Feishu Base Configuration
+# Base Token can be found in the URL of your Base: https://<your_domain>.feishu.cn/base/<BASE_TOKEN>
+FEISHU_BASE_TOKEN=
+
+# Table ID can be found in the URL when you select the table, or via API
+FEISHU_TABLE_ID=
+
+# Amap (Gaode) Map Keys
+# Web JSAPI Key
+NEXT_PUBLIC_AMAP_KEY=
+# Web Service Security Code
+NEXT_PUBLIC_AMAP_SECURITY_CODE=

@@ -1,0 +1,193 @@
+@import "tailwindcss";
+
+@theme {
+  --color-cream: #F7F5F2;
+  --color-cream-dark: #F6F6F6;
+  --color-milk-coffee: #E6DMD3;
+  /* Approximate */
+  --color-apricot: #FCE8D6;
+  --color-beige-gold: #F5E6C8;
+
+  --shadow-soft-1: 0px 10px 25px rgba(0, 0, 0, 0.05);
+  --shadow-soft-2: 0px 2px 6px rgba(0, 0, 0, 0.03);
+
+  --radius-card: 24px;
+  --radius-card-lg: 38px;
+}
+
+:root {
+  --foreground-rgb: 0, 0, 0;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --foreground-rgb: 0, 0, 0;
+    /* Force light mode text for now as design is light-themed */
+  }
+}
+
+body {
+  color: rgb(var(--foreground-rgb));
+  background: linear-gradient(180deg,
+      var(--color-cream) 0%,
+      var(--color-apricot) 100%);
+  overscroll-behavior: none;
+  height: 100dvh;
+  width: 100vw;
+  overflow: hidden;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+}
+
+/* Hide scrollbar */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+/* Map Marker Zoom Logic */
+
+/* Base Marker Styles */
+.marker-container {
+  width: 48px;
+  height: 48px;
+  position: relative;
+  /* Anchor for absolute children */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  /* Ensure transform origin is center so scaling doesn't shift position */
+  transform-origin: center center;
+}
+
+.marker-icon {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(4px);
+  overflow: hidden;
+  /* Clip image when shrinking */
+}
+
+.marker-icon img {
+  transition: opacity 0.2s;
+}
+
+.marker-label {
+  position: absolute;
+  top: 110%;
+  /* Push below icon */
+  left: 50%;
+  transform: translateX(-50%);
+  white-space: nowrap;
+  z-index: -1;
+  /* Behind icon if overlapping? No, usually on top. */
+  pointer-events: none;
+  transition: opacity 0.2s;
+
+  /* Fixed text styles */
+  font-size: 14px;
+  font-weight: 700;
+  color: #000000;
+  /* White outline effect */
+  text-shadow: 
+    -1.5px -1.5px 0 #fff,  
+    1.5px -1.5px 0 #fff,
+    -1.5px 1.5px 0 #fff,
+    1.5px 1.5px 0 #fff,
+    0 2px 4px rgba(0,0,0,0.3);
+  
+  background: none;
+  padding: 0;
+  border-radius: 0;
+  box-shadow: none;
+}
+
+/* Low Zoom (< 14): Dot Mode */
+[data-zoom="low"] .marker-icon {
+  transform: scale(0.3);
+  /* Shrink to dot */
+  background: #fff;
+  /* Solid white dot */
+  border: 2px solid #F59E0B;
+  /* Orange border for visibility */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+[data-zoom="low"] .marker-icon img {
+  opacity: 0;
+  /* Hide image */
+}
+
+[data-zoom="low"] .marker-label {
+  opacity: 0;
+  /* Hide text */
+  visibility: hidden;
+}
+
+/* Hover State for Low Zoom: Expand to full */
+[data-zoom="low"] .marker-container:hover {
+  z-index: 999 !important;
+}
+
+[data-zoom="low"] .marker-container:hover .marker-icon {
+  transform: scale(1.25);
+  background: rgba(255, 255, 255, 0.95);
+  border: none;
+}
+
+[data-zoom="low"] .marker-container:hover .marker-icon img {
+  opacity: 1;
+}
+
+[data-zoom="low"] .marker-container:hover .marker-label {
+  opacity: 1;
+  visibility: visible;
+  animation: fadeIn 0.2s ease-out;
+}
+
+/* Medium Zoom (14-16): Icon Only */
+[data-zoom="medium"] .marker-label {
+  opacity: 0;
+  visibility: hidden;
+}
+
+[data-zoom="medium"] .marker-container:hover .marker-label {
+  opacity: 1;
+  visibility: visible;
+  animation: fadeIn 0.2s ease-out;
+}
+
+[data-zoom="medium"] .marker-container:hover .marker-icon {
+  transform: scale(1.25);
+}
+
+/* High Zoom (>= 16): Full Detail */
+[data-zoom="high"] .marker-label {
+  opacity: 1;
+  visibility: visible;
+}
+
+[data-zoom="high"] .marker-container:hover .marker-icon {
+  transform: scale(1.25);
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateX(-50%) translateY(5px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+  }
+}
