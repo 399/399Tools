@@ -1,3 +1,4 @@
+export const runtime = 'edge';
 import { getPortfolios } from './lib/actions';
 import PortfolioForm from './components/PortfolioForm';
 import EditPortfolioDialog from './components/EditPortfolioDialog';

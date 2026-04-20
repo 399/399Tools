@@ -1,3 +1,4 @@
+export const runtime = 'edge';
 
 import { NextResponse } from 'next/server';
 import { getTenantAccessToken, checkDuplicate, createRecord } from '@/app/feishu_push/lib/feishu';

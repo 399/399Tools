@@ -1,3 +1,4 @@
+export const runtime = 'edge';
 import { getPortfolio, getPortfolioTransactions, getAllUniqueAssets } from '../../lib/actions';
 import AssetForm from '../../components/AssetForm';
 import RegularPortfolioView from '../../components/RegularPortfolioView';

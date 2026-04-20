@@ -1,3 +1,4 @@
+export const runtime = 'edge';
 import { getWorkspaces } from './lib/actions';
 import Link from 'next/link';
 import { ArrowLeft, LayoutGrid, Clock, Ruler } from 'lucide-react';

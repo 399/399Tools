@@ -1,3 +1,4 @@
+export const runtime = 'edge';
 import { getWorkspace } from '../lib/actions';
 import { notFound } from 'next/navigation';
 import DittoEditorClient from './DittoEditorClient';

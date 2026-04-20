@@ -1,3 +1,4 @@
+export const runtime = 'edge';
 import { NextResponse } from 'next/server';
 import { fetchPlaces } from '@/app/9map/lib/places';
 
