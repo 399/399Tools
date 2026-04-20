@@ -16,14 +16,18 @@ export interface DittoNodeData {
 interface DittoWorkspaceProps {
   width: number;
   height: number;
+  initialData?: DittoNodeData;
+  onDataChange?: (data: DittoNodeData) => void;
 }
 
-export default function DittoWorkspace({ width, height }: DittoWorkspaceProps) {
-  const [rootNode, setRootNode] = useState<DittoNodeData>({
+export default function DittoWorkspace({ width, height, initialData, onDataChange }: DittoWorkspaceProps) {
+  const defaultRoot: DittoNodeData = {
     id: "root",
     name: "空间 1",
     ratio: 1,
-  });
+  };
+
+  const [rootNode, setRootNode] = useState<DittoNodeData>(initialData ?? defaultRoot);
   
   // History State
   const [history, setHistory] = useState<DittoNodeData[]>([]);
@@ -33,9 +37,22 @@ export default function DittoWorkspace({ width, height }: DittoWorkspaceProps) {
      setHistory(prev => [...prev, rootNode]);
      setFuture([]);
      setRootNode(newState);
+     onDataChange?.(newState);
+  };
+  // Scan tree to find highest existing name number
+  const findMaxNameNumber = (node: DittoNodeData): number => {
+    let max = 0;
+    const match = node.name.match(/^空间\s*(\d+)$/);
+    if (match) max = parseInt(match[1], 10);
+    if (node.children) {
+      for (const child of node.children) {
+        max = Math.max(max, findMaxNameNumber(child));
+      }
+    }
+    return max;
   };
 
-  const nameCounter = useRef(2);
+  const nameCounter = useRef(findMaxNameNumber(initialData ?? defaultRoot) + 1);
 
   const getNextName = () => {
     const name = `空间 ${nameCounter.current}`;

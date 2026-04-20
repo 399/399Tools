@@ -150,6 +150,12 @@ export default function BlockNodeComponent({
       if (!isContainer || node.direction !== axis) return;
       onUpdate(node.id, (n) => {
           if (n.children!.length <= 2) {
+             // When removing the last split, check if the remaining child
+             // is a group (from a prior cross-axis split). If so, unwrap it.
+             const remaining = n.children![0];
+             if (remaining.children && remaining.direction) {
+                return { ...n, direction: remaining.direction, children: remaining.children };
+             }
              return { ...n, direction: undefined, children: undefined };
           }
           return { ...n, children: n.children!.slice(0, -1) };
@@ -231,7 +237,7 @@ export default function BlockNodeComponent({
       {/* 
         CAD + / - Horizontal controls (Top) 
       */}
-      {isSelected && (!isContainer || node.direction === "row") && (
+      {isSelected && (
         <div className="absolute top-0 right-1/2 translate-x-1/2 -translate-y-full pb-2 z-50 pointer-events-none" style={{ transform: `scale(${inverseZoom}) translate(50%, 0)`, transformOrigin: 'bottom center' }}>
            <div className="flex bg-white shadow-md rounded-md border border-zinc-200 overflow-hidden pointer-events-auto">
               <Button size="icon" variant="ghost" className="h-[26px] w-[28px] rounded-none text-zinc-600 bg-zinc-50 hover:bg-zinc-200" onClick={(e) => handleSplitPlus("row", e)}><Plus strokeWidth={3} className="w-4 h-4"/></Button>
@@ -244,7 +250,7 @@ export default function BlockNodeComponent({
       {/* 
         CAD + / - Vertical controls (Right) 
       */}
-      {isSelected && (!isContainer || node.direction === "col") && (
+      {isSelected && (
         <div className="absolute right-0 top-1/2 translate-y-1/2 translate-x-full pl-2 z-50 pointer-events-none" style={{ transform: `scale(${inverseZoom}) translate(0, 50%)`, transformOrigin: 'center left' }}>
            <div className="flex flex-col bg-white shadow-md rounded-md border border-zinc-200 overflow-hidden pointer-events-auto">
               <Button size="icon" variant="ghost" className="h-[26px] w-[28px] rounded-none text-zinc-600 bg-zinc-50 hover:bg-zinc-200" onClick={(e) => handleSplitPlus("col", e)}><Plus strokeWidth={3} className="w-4 h-4"/></Button>

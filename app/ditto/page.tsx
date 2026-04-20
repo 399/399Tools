@@ -1,98 +1,87 @@
-"use client";
+import { getWorkspaces } from './lib/actions';
+import Link from 'next/link';
+import { ArrowLeft, LayoutGrid, Clock, Ruler } from 'lucide-react';
+import { Button } from '@/components/ui/button';
+import CreateWorkspaceDialog from './components/CreateWorkspaceDialog';
+import WorkspaceActions from './components/WorkspaceActions';
 
-import { useState } from "react";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { ArrowLeft } from "lucide-react";
-import Link from "next/link";
-import DittoWorkspace from "./components/DittoWorkspace";
+export const dynamic = 'force-dynamic';
 
-export default function DittoPage() {
-  const [dimensions, setDimensions] = useState<{ width: number; height: number } | null>(null);
-  const [formWidth, setFormWidth] = useState(800);
-  const [formHeight, setFormHeight] = useState(600);
+function formatTime(date: Date) {
+    return new Date(date).toLocaleString('zh-CN', {
+        year: 'numeric',
+        month: '2-digit',
+        day: '2-digit',
+        hour: '2-digit',
+        minute: '2-digit',
+        second: '2-digit',
+        hour12: false,
+    });
+}
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    setDimensions({ width: formWidth, height: formHeight });
-  };
+export default async function DittoListPage() {
+    const workspaces = await getWorkspaces();
 
-  return (
-    <div className="min-h-[100dvh] bg-zinc-50 dark:bg-zinc-950 flex flex-col overflow-hidden">
-      <header className="border-b border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900 px-6 py-4 flex flex-row items-center justify-between shadow-sm z-20 shrink-0">
-        <div className="flex items-center gap-4">
-          <Link href="/">
-            <Button variant="ghost" size="icon">
-              <ArrowLeft className="w-5 h-5" />
-            </Button>
-          </Link>
-          <div className="flex flex-col">
-             <h1 className="text-xl font-bold text-zinc-900 dark:text-zinc-50">Ditto</h1>
-             <span className="text-xs text-zinc-500">空间分配与排版工具</span>
-          </div>
+    return (
+        <div className="min-h-screen bg-zinc-50 dark:bg-zinc-950">
+            <header className="border-b border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900 px-6 py-4 flex items-center justify-between shadow-sm">
+                <div className="flex items-center gap-4">
+                    <Link href="/">
+                        <Button variant="ghost" size="icon">
+                            <ArrowLeft className="w-5 h-5" />
+                        </Button>
+                    </Link>
+                    <div>
+                        <h1 className="text-xl font-bold text-zinc-900 dark:text-zinc-50">Ditto</h1>
+                        <span className="text-xs text-zinc-500">空间分配与排版工具</span>
+                    </div>
+                </div>
+                <CreateWorkspaceDialog />
+            </header>
+
+            <main className="max-w-5xl mx-auto p-6 md:p-10">
+                {workspaces.length === 0 ? (
+                    <div className="flex flex-col items-center justify-center min-h-[400px] bg-white dark:bg-zinc-900 rounded-xl border border-zinc-200 dark:border-zinc-800 text-center space-y-4 p-12">
+                        <div className="p-4 rounded-full bg-zinc-100 dark:bg-zinc-800 text-zinc-400">
+                            <LayoutGrid size={48} />
+                        </div>
+                        <h3 className="text-xl font-semibold">暂无空间</h3>
+                        <p className="text-zinc-500 max-w-sm">
+                            点击右上角"新建空间"来创建您的第一个空间分配方案。
+                        </p>
+                    </div>
+                ) : (
+                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+                        {workspaces.map((ws) => (
+                            <div key={ws.id} className="group relative bg-white dark:bg-zinc-900 rounded-xl border border-zinc-200 dark:border-zinc-800 hover:shadow-lg hover:border-pink-200 dark:hover:border-pink-800 transition-all duration-200 overflow-hidden">
+                                {/* Gradient top bar */}
+                                <div className="h-1.5 w-full bg-gradient-to-r from-pink-400 to-purple-500" />
+
+                                <Link href={`/ditto/${ws.id}`} className="block p-5 pb-3">
+                                    <h3 className="text-lg font-bold text-zinc-900 dark:text-zinc-50 truncate group-hover:text-pink-600 transition-colors">
+                                        {ws.name}
+                                    </h3>
+                                    <div className="flex items-center gap-3 mt-3 text-xs text-zinc-500">
+                                        <span className="flex items-center gap-1">
+                                            <Ruler size={12} />
+                                            {ws.width} × {ws.height} mm
+                                        </span>
+                                    </div>
+                                </Link>
+
+                                {/* Footer */}
+                                <div className="px-5 py-3 border-t border-zinc-100 dark:border-zinc-800 flex items-center justify-between">
+                                    <span className="flex items-center gap-1.5 text-[11px] text-zinc-400">
+                                        <Clock size={11} />
+                                        {formatTime(ws.updatedAt)}
+                                    </span>
+                                    <WorkspaceActions workspaceId={ws.id} workspaceName={ws.name} />
+                                </div>
+                            </div>
+                        ))}
+                    </div>
+                )}
+            </main>
         </div>
-        {dimensions && (
-          <div className="flex items-center gap-4 text-sm font-medium bg-zinc-100 text-zinc-600 dark:text-zinc-300 dark:bg-zinc-800 px-4 py-2 rounded-lg border border-zinc-200 dark:border-zinc-700">
-            实际尺寸: {dimensions.width}mm &times; {dimensions.height}mm
-            <Button size="sm" variant="outline" onClick={() => setDimensions(null)} className="ml-2 h-7 px-3 text-xs text-pink-600 border-pink-200 hover:bg-pink-50 hover:text-pink-700">
-              重置参数
-            </Button>
-          </div>
-        )}
-      </header>
-
-      <main className="flex-1 w-full flex items-center justify-center p-6 overflow-hidden relative">
-        {!dimensions ? (
-          <div className="w-full max-w-md animate-in fade-in zoom-in-95 duration-300">
-            <Card className="shadow-2xl border-zinc-200 dark:border-zinc-800 rounded-2xl overflow-hidden">
-              <div className="h-2 w-full bg-gradient-to-r from-pink-400 to-purple-500" />
-              <CardHeader className="pb-6">
-                <CardTitle className="text-2xl">新建空间分配卷</CardTitle>
-                <CardDescription className="text-base mt-2">
-                  设定目标区域的物理极限参数（单位：mm），系统将按照实际比例为您渲染可视化的拆分控制。
-                </CardDescription>
-              </CardHeader>
-              <CardContent>
-                <form onSubmit={handleSubmit} className="space-y-8">
-                  <div className="space-y-6">
-                    <div className="space-y-3">
-                      <Label htmlFor="width" className="text-sm font-semibold text-zinc-700 dark:text-zinc-300">宽度 (单位: mm)</Label>
-                      <Input
-                        id="width"
-                        type="number"
-                        value={formWidth}
-                        onChange={(e) => setFormWidth(Number(e.target.value))}
-                        min={10}
-                        max={100000}
-                        className="text-lg py-6"
-                      />
-                    </div>
-                    <div className="space-y-3">
-                      <Label htmlFor="height" className="text-sm font-semibold text-zinc-700 dark:text-zinc-300">高度 (单位: mm)</Label>
-                      <Input
-                        id="height"
-                        type="number"
-                        value={formHeight}
-                        onChange={(e) => setFormHeight(Number(e.target.value))}
-                        min={10}
-                        max={100000}
-                        className="text-lg py-6"
-                      />
-                    </div>
-                  </div>
-                  <Button type="submit" size="lg" className="w-full bg-pink-500 hover:bg-pink-600 text-white shadow-md hover:shadow-lg transition-all rounded-xl py-6 text-lg font-semibold">
-                    进入自动适配台
-                  </Button>
-                </form>
-              </CardContent>
-            </Card>
-          </div>
-        ) : (
-          <DittoWorkspace width={dimensions.width} height={dimensions.height} />
-        )}
-      </main>
-    </div>
-  );
+    );
 }
