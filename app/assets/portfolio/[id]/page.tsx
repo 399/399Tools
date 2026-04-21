@@ -1,4 +1,3 @@
-export const runtime = 'edge';
 import { getPortfolio, getPortfolioTransactions, getAllUniqueAssets } from '../../lib/actions';
 import AssetForm from '../../components/AssetForm';
 import RegularPortfolioView from '../../components/RegularPortfolioView';
@@ -173,3 +172,5 @@ export default async function PortfolioDetailPage({
         </main>
     );
 }
+
+export const runtime = "edge";

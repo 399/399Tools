@@ -1,5 +1,3 @@
-export const runtime = 'edge';
-
 import { NextResponse } from 'next/server';
 import { getTenantAccessToken, checkDuplicate, createRecord } from '@/app/feishu_push/lib/feishu';
 
@@ -63,3 +61,5 @@ export async function POST(request: Request) {
         return NextResponse.json({ error: '服务器内部错误' }, { status: 500 });
     }
 }
+
+export const runtime = "edge";

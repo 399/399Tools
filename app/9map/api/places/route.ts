@@ -1,4 +1,3 @@
-export const runtime = 'edge';
 import { NextResponse } from 'next/server';
 import { fetchPlaces } from '@/app/9map/lib/places';
 
@@ -17,3 +16,5 @@ export async function GET(request: Request) {
         return NextResponse.json({ data: [], error: error.message || 'Failed to fetch data' }, { status: 500 });
     }
 }
+
+export const runtime = "edge";

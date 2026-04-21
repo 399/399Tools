@@ -1,4 +1,3 @@
-export const runtime = 'edge';
 import { getPortfolios } from './lib/actions';
 import PortfolioForm from './components/PortfolioForm';
 import EditPortfolioDialog from './components/EditPortfolioDialog';
@@ -85,3 +84,5 @@ export default async function AssetsPage() {
         </main>
     );
 }
+
+export const runtime = "edge";
