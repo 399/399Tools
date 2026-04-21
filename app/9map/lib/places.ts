@@ -51,7 +51,8 @@ export async function fetchPlaces(options: { type?: 'homepage' | 'full' } = { ty
     }
 
     const places: Place[] = res.data.items
-        .map((item) => {
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        .map((item: any) => {
             const fields = item.fields as Record<string, FeishuFieldValue>;
 
             // Parse Feishu "Location" field
