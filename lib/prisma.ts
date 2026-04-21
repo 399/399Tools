@@ -3,7 +3,11 @@ import { PrismaLibSql } from '@prisma/adapter-libsql/web'
 
 const prismaClientSingleton = () => {
     // Using configuration object directly for PrismaLibSql (requires url and optionally authToken)
-    const url = process.env.TURSO_DATABASE_URL || 'libsql://dummy.turso.io'
+    let url = process.env.TURSO_DATABASE_URL || 'https://dummy.turso.io'
+    // Force HTTP stateless protocol on Edge to prevent Cloudflare cross-request I/O violations
+    if (url.startsWith('libsql://')) {
+        url = url.replace('libsql://', 'https://')
+    }
     const authToken = process.env.TURSO_AUTH_TOKEN || ''
 
     const adapter = new PrismaLibSql({
