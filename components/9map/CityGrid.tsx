@@ -1,6 +1,6 @@
 import Link from 'next/link';
 import NextImage from 'next/image';
-import { fetchPlaces } from '@/lib/9map/places';
+import { fetchPlaces } from '@/app/9map/lib/places';
 
 interface CityMap {
     id: string;
