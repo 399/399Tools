@@ -144,7 +144,7 @@ export async function fetchPlaces(options: { type?: 'homepage' | 'full' } = { ty
                 business_area: (fields['BusinessArea'] as string) || '',
             };
         })
-        .filter((place) => {
+        .filter((place: Place) => {
             // For homepage, we just need valid city info.
             // But the original filter was `place.name && place.location[0] !== 0`.
             // If we don't request 'name', place.name will be empty.
