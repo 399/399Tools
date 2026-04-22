@@ -13,6 +13,7 @@
     "@amap/amap-jsapi-loader": "^1.0.1",
     "@libsql/client": "^0.17.2",
     "@phosphor-icons/react": "^2.1.10",
+    "@prisma/adapter-d1": "^7.7.0",
     "@prisma/adapter-libsql": "^7.2.0",
     "@prisma/client": "^7.2.0",
     "@radix-ui/react-dialog": "^1.1.15",

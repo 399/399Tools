@@ -1,10 +1,17 @@
 import { PrismaClient } from '@prisma/client/edge'
 import { PrismaLibSql } from '@prisma/adapter-libsql/web'
+import { PrismaD1 } from '@prisma/adapter-d1'
 
 const prismaClientSingleton = () => {
-    // Using configuration object directly for PrismaLibSql (requires url and optionally authToken)
+    // 优先使用 Cloudflare D1 (生产环境)
+    if (process.env.d1_data) {
+        // @ts-ignore - D1 database object is injected by Cloudflare
+        const adapter = new PrismaD1(process.env.d1_data)
+        return new PrismaClient({ adapter })
+    }
+
+    // 本地开发回退使用 LibSQL / Turso
     let url = process.env.TURSO_DATABASE_URL || 'https://dummy.turso.io'
-    // Force HTTP stateless protocol on Edge to prevent Cloudflare cross-request I/O violations
     if (url.startsWith('libsql://')) {
         url = url.replace('libsql://', 'https://')
     }
@@ -28,6 +35,5 @@ const prisma = globalThis.prismaGlobal ?? prismaClientSingleton()
 export default prisma
 
 if (process.env.NODE_ENV !== 'production') {
-    // Only set this explicitly in dev environments if needed, but not immediately to avoid eagerness
-    // globalThis.prismaGlobal is populated on first query
+    globalThis.prismaGlobal = prisma
 }
