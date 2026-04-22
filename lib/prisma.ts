@@ -23,18 +23,7 @@ declare global {
     var prismaGlobal: undefined | ReturnType<typeof prismaClientSingleton>
 }
 
-// Instantiate lazily through a Proxy to guarantee process.env is populated by Next.js edge runtime
-// Cloudflare Workers leave process.env empty during top-level module scopes
-const prisma = new Proxy({} as PrismaClient, {
-    get: (target, prop) => {
-        if (!globalThis.prismaGlobal) {
-            globalThis.prismaGlobal = prismaClientSingleton()
-        }
-        const instance = globalThis.prismaGlobal as any
-        const value = instance[prop]
-        return typeof value === 'function' ? value.bind(instance) : value
-    }
-})
+const prisma = globalThis.prismaGlobal ?? prismaClientSingleton()
 
 export default prisma
 
