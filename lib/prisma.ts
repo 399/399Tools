@@ -18,6 +18,11 @@ const prismaClientSingleton = () => {
     return new PrismaClient({ adapter })
 }
 
+declare global {
+    // eslint-disable-next-line no-var
+    var prismaGlobal: undefined | ReturnType<typeof prismaClientSingleton>
+}
+
 // Instantiate lazily through a Proxy to guarantee process.env is populated by Next.js edge runtime
 // Cloudflare Workers leave process.env empty during top-level module scopes
 const prisma = new Proxy({} as PrismaClient, {
