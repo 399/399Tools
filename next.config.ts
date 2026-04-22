@@ -5,7 +5,6 @@ const nextConfig: NextConfig = {
   eslint: {
     ignoreDuringBuilds: true,
   },
-  serverExternalPackages: ['@libsql/isomorphic-ws'],
   webpack: (config) => {
     config.resolve.alias = {
       ...config.resolve.alias,
